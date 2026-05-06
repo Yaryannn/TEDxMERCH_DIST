@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEDxBITSGoa merch distribution</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    :root {
+      --gold: #D4AF37;
+      --gold-light: #F0D060;
+      --gold-dark: #A8891C;
+      --crimson: #DC143C;
+      --crimson-dark: #A00025;
+      --black: #0A0A0A;
+      --black-card: #111111;
+      --black-mid: #1A1A1A;
+      --white: #F5F0E8;
+      --grey: #999;
+    }
+ 
+    body {
+      font-family: 'Raleway', sans-serif;
+      background-color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+ 
+    /* Animated background pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(212,175,55,0.025) 40px, rgba(212,175,55,0.025) 41px),
+        repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(212,175,55,0.025) 40px, rgba(212,175,55,0.025) 41px);
+      pointer-events: none;
+      z-index: 0;
+    }
+ 
+    body::after {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 30% 20%, rgba(220,20,60,0.07) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 80%, rgba(212,175,55,0.07) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+ 
+    .page-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1100px;
+      padding: 20px;
+    }
+ 
+    /* ─── DECORATIVE CROWN / EMBLEM ─── */
+    .emblem {
+      text-align: center;
+      margin-bottom: 30px;
+      animation: fadeDown 0.8s ease both;
+    }
+    .emblem-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 6px;
+    }
+    .emblem-line span {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 5px;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+    .emblem-rule {
+      flex: 1;
+      max-width: 120px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .emblem-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(22px, 4vw, 34px);
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-shadow: 0 0 30px rgba(212,175,55,0.4), 0 2px 4px rgba(0,0,0,0.8);
+    }
+    .emblem-sub {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 8px;
+      color: var(--crimson);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+ 
+    /* ─── CARD BASE ─── */
+    .card {
+      background: var(--black-card);
+      border: 1px solid rgba(212,175,55,0.25);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--crimson), var(--gold), transparent);
+    }
+ 
+    /* ─── LOGIN SCREEN ─── */
+    #loginSection {
+      animation: fadeUp 0.7s ease both 0.2s;
+    }
+    .login-card {
+      max-width: 440px;
+      margin: 0 auto;
+      padding: 50px 44px 44px;
+    }
+    .login-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 28px;
+      background: radial-gradient(circle, rgba(212,175,55,0.15), transparent);
+      border: 1.5px solid rgba(212,175,55,0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-icon svg { width: 28px; height: 28px; fill: var(--gold); }
+    .login-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+      text-align: center;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+    .login-subheading {
+      text-align: center;
+      font-size: 12px;
+      color: var(--grey);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 36px;
+    }
+    .input-group {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .input-group label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--black-mid);
+      border: 1.5px solid rgba(212,175,55,0.2);
+      border-radius: 8px;
+      color: var(--white);
+      font-family: 'Raleway', sans-serif;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .input-group input::placeholder { color: rgba(255,255,255,0.2); }
+    .input-group input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.12);
+    }
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      margin-top: 10px;
+      background: linear-gradient(135deg, var(--crimson-dark), var(--crimson));
+      border: 1.5px solid var(--gold);
+      border-radius: 8px;
+      color: var(--white);
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .btn-primary:hover::after { opacity: 1; }
+    .btn-primary span { position: relative; z-index: 1; color: var(--black); }
+    .btn-primary:hover span { color: var(--black); }
+    .btn-primary:active { transform: scale(0.98); }
+ 
+    #loginError {
+      display: none;
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: rgba(220,20,60,0.1);
+      border: 1px solid rgba(220,20,60,0.35);
+      border-radius: 8px;
+      color: #FF6B80;
+      font-size: 13px;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+ 
+    /* ─── MAIN APP ─── */
+    #appSection { display: none; }
+    .app-card {
+      padding: 36px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .app-layout {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+    }
+    .left-col { flex: 1.1; min-width: 0; }
+    .right-col { flex: 0.9; min-width: 0; }
+ 
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+    }
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, rgba(212,175,55,0.4), transparent);
+      margin-bottom: 24px;
+    }
+ 
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .search-bar input {
+      flex: 1;
+      padding: 14px 18px;
+      background: var(--black-mid);
+      border: 1.5px solid rgba(212,175,55,0.25);
+      border-radius: 8px;
+      color: var(--white);
+      font-family: 'Raleway', sans-serif;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .search-bar input::placeholder { color: rgba(255,255,255,0.25); }
+    .search-bar input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
+    }
+    .btn-search {
+      padding: 14px 22px;
+      background: linear-gradient(135deg, var(--crimson-dark), var(--crimson));
+      border: 1.5px solid rgba(212,175,55,0.5);
+      border-radius: 8px;
+      color: var(--white);
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .btn-search:hover {
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      color: var(--black);
+      border-color: var(--gold);
+    }
+    .btn-search:active { transform: scale(0.97); }
+ 
+    /* Loader */
+    #loader {
+      display: none;
+      padding: 16px;
+      text-align: center;
+    }
+    .loader-dots {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .loader-dots span {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: bounce 1.2s infinite ease-in-out;
+    }
+    .loader-dots span:nth-child(2) { animation-delay: 0.2s; background: var(--crimson); }
+    .loader-dots span:nth-child(3) { animation-delay: 0.4s; }
+    .loader-text { font-size: 12px; color: var(--grey); letter-spacing: 3px; margin-top: 10px; text-transform: uppercase; }
+ 
+    /* Result panel */
+    #results {
+      display: none;
+      animation: fadeUp 0.4s ease both;
+    }
+    .result-card {
+      background: var(--black-mid);
+      border: 1.5px solid rgba(212,175,55,0.25);
+      border-radius: 12px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .result-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .result-id-tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--grey);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    #resId {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      color: rgba(212,175,55,0.6);
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+    #resName {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+ 
+    /* Already Collected Badge */
+    #collectedStatus {
+      display: none;
+      margin-top: 12px;
+      padding: 10px 16px;
+      background: rgba(220,20,60,0.12);
+      border: 1.5px solid rgba(220,20,60,0.5);
+      border-radius: 8px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+    #collectedStatus .pulse-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--crimson);
+      box-shadow: 0 0 0 0 rgba(220,20,60,0.7);
+      animation: pulse 1.5s infinite;
+      flex-shrink: 0;
+    }
+    #collectedStatus .collected-text {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: #FF6B80;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+ 
+    /* App error */
+    #appError {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 16px;
+      background: rgba(220,20,60,0.1);
+      border: 1px solid rgba(220,20,60,0.3);
+      border-radius: 8px;
+      color: #FF6B80;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+ 
+    /* ─── MERCH BOXES ─── */
+    .boxes-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .merch-box {
+      background: var(--black-mid);
+      border: 1.5px solid rgba(212,175,55,0.2);
+      border-radius: 12px;
+      padding: 22px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.2s;
+    }
+    .merch-box:hover {
+      border-color: rgba(212,175,55,0.5);
+      transform: translateY(-2px);
+    }
+    .merch-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--gold), var(--crimson));
+      border-radius: 0 0 0 12px;
+    }
+    .merch-box-icon {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    .merch-box-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .merch-box-value {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 2px;
+      min-height: 34px;
+    }
+    .merch-box-value.empty { color: rgba(255,255,255,0.15); }
+ 
+    /* Vertical divider */
+    .v-divider {
+      width: 1px;
+      align-self: stretch;
+      background: linear-gradient(to bottom, transparent, rgba(212,175,55,0.25), transparent);
+    }
+ 
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
+      40%           { transform: scale(1); opacity: 1; }
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(220,20,60,0.7); }
+      70%  { box-shadow: 0 0 0 8px rgba(220,20,60,0); }
+      100% { box-shadow: 0 0 0 0 rgba(220,20,60,0); }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+ 
+    /* Result entrance animation */
+    .result-card.animate {
+      animation: fadeUp 0.35s ease both;
+    }
+ 
+    /* Responsive */
+    @media (max-width: 700px) {
+      .app-layout { flex-direction: column; }
+      .v-divider { width: 100%; height: 1px; align-self: auto; background: linear-gradient(to right, transparent, rgba(212,175,55,0.25), transparent); }
+      .app-card { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+ 
+<div class="page-wrapper">
+ 
+  <!-- Emblem Header -->
+  <div class="emblem">
+    <div class="emblem-line">
+      <div class="emblem-rule"></div>
+      <span>Official</span>
+      <div class="emblem-rule"></div>
+    </div>
+    <div class="emblem-title">TEDxBITSGoa merch distribution</div>
+    <div class="emblem-sub">MERCH PORTAL</div>
+  </div>
+ 
+  <!-- ══════════════ LOGIN SCREEN ══════════════ -->
+  <div id="loginSection">
+    <div class="card login-card">
+      <div class="login-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 1C8.676 1 6 3.676 6 7s2.676 6 6 6 6-2.676 6-6-2.676-6-6-6zm0 14c-5.33 0-8 2.686-8 4v1h16v-1c0-1.314-2.67-4-8-4z"/>
+        </svg>
+      </div>
+      <div class="login-heading">Team Access Portal</div>
+      <div class="login-subheading">Authorized Personnel Only</div>
+ 
+      <div class="input-group">
+        <label>Login ID</label>
+        <input type="text" id="teamId" placeholder="Enter your team ID" onkeypress="loginKeyPress(event)">
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="teamPsw" placeholder="••••••••••" onkeypress="loginKeyPress(event)">
+      </div>
+      <button class="btn-primary" onclick="login()">
+        <span>Enter Portal</span>
+      </button>
+      <div id="loginError"></div>
+    </div>
+  </div>
+ 
+  <!-- ══════════════ MAIN APP ══════════════ -->
+  <div id="appSection">
+    <div class="card app-card">
+      <div class="app-layout">
+ 
+        <!-- LEFT COL -->
+        <div class="left-col">
+          <div class="section-label">Distribution Console</div>
+          <div class="section-title">Scan & Verify</div>
+          <div class="section-divider"></div>
+ 
+          <div class="search-bar">
+            <input type="text" id="studentId" placeholder="Scan or enter member ID..." onkeypress="handleKeyPress(event)" autofocus>
+            <button class="btn-search" onclick="searchId()">Search</button>
+          </div>
+ 
+          <!-- Loader -->
+          <div id="loader">
+            <div class="loader-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="loader-text">Fetching record…</div>
+          </div>
+ 
+          <!-- App Error -->
+          <div id="appError"></div>
+ 
+          <!-- Results -->
+          <div id="results">
+            <div class="result-card">
+              <div class="result-id-tag">Member Record</div>
+              <div id="resId">—</div>
+              <div id="resName">—</div>
+ 
+              <!-- Already Collected Badge -->
+              <div id="collectedStatus">
+                <div class="pulse-dot"></div>
+                <div class="collected-text">⚠ Already Collected</div>
+              </div>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- VERTICAL DIVIDER -->
+        <div class="v-divider"></div>
+ 
+        <!-- RIGHT COL -->
+        <div class="right-col">
+          <div class="section-label">Merch Details</div>
+          <div class="section-title">Items Assigned</div>
+          <div class="section-divider"></div>
+ 
+          <div class="boxes-col">
+            <div class="merch-box">
+              <div class="merch-box-icon">💎</div>
+              <div class="merch-box-label">Sapphire Merch Size</div>
+              <div class="merch-box-value empty" id="resSapphire">—</div>
+            </div>
+            <div class="merch-box">
+              <div class="merch-box-icon">🎨</div>
+              <div class="merch-box-label">Theme Merch Size</div>
+              <div class="merch-box-value empty" id="resTheme">—</div>
+            </div>
+            <div class="merch-box">
+              <div class="merch-box-icon">🛍</div>
+              <div class="merch-box-label">What They Bought</div>
+              <div class="merch-box-value empty" id="resBought">—</div>
+            </div>
+          </div>
+        </div>
+ 
+      </div>
+    </div>
+  </div>
+ 
+</div><!-- /page-wrapper -->
+ 
+<script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbwNS8bzgHKmXVsSrvePoejMg5sMQV7vlM0L2kUoc0Eu13A3pytK33Aix37KtlIey_SCCg/exec";
+ 
+  let savedLoginId = "";
+  let savedPsw = "";
+ 
+  function loginKeyPress(e) {
+    if (e.key === 'Enter') login();
+  }
+ 
+  function login() {
+    savedLoginId = document.getElementById('teamId').value.trim();
+    savedPsw = document.getElementById('teamPsw').value;
+    const errEl = document.getElementById('loginError');
+ 
+    if (savedLoginId === "TEDX" && savedPsw === "merch123") {
+      errEl.style.display = 'none';
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('appSection').style.display = 'block';
+      document.getElementById('studentId').focus();
+    } else {
+      errEl.innerText = 'Invalid credentials. Please try again.';
+      errEl.style.display = 'block';
+    }
+  }
+ 
+  function handleKeyPress(e) {
+    if (e.key === 'Enter') searchId();
+  }
+ 
+  function setMerchValue(elId, val) {
+    const el = document.getElementById(elId);
+    if (val && val !== '-' && val !== '') {
+      el.innerText = val;
+      el.classList.remove('empty');
+    } else {
+      el.innerText = '—';
+      el.classList.add('empty');
+    }
+  }
+ 
+  async function searchId() {
+    const id = document.getElementById('studentId').value.trim();
+    if (!id) return;
+ 
+    document.getElementById('loader').style.display = 'block';
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('appError').style.display = 'none';
+    document.getElementById('collectedStatus').style.display = 'none';
+    setMerchValue('resSapphire', '');
+    setMerchValue('resTheme', '');
+    setMerchValue('resBought', '');
+ 
+    const requestUrl = `${API_URL}?loginId=${encodeURIComponent(savedLoginId)}&psw=${encodeURIComponent(savedPsw)}&id=${encodeURIComponent(id)}`;
+ 
+    try {
+      const response = await fetch(requestUrl);
+      const data = await response.json();
+ 
+      document.getElementById('loader').style.display = 'none';
+ 
+      if (data.error) {
+        if (data.error === "Unauthorized") {
+          alert("Wrong Team ID or Password. Refresh the page to log in again.");
+        } else {
+          showAppError("System Error: " + data.error);
+        }
+        return;
+      }
+ 
+      if (data.found) {
+        document.getElementById('resName').innerText = data.name || '—';
+        document.getElementById('resId').innerText = 'ID: ' + id;
+        setMerchValue('resSapphire', data.sapphire);
+        setMerchValue('resTheme', data.theme);
+        setMerchValue('resBought', data.bought);
+ 
+        const resultsEl = document.getElementById('results');
+        resultsEl.style.display = 'block';
+        const rc = resultsEl.querySelector('.result-card');
+        rc.classList.remove('animate');
+        void rc.offsetWidth;
+        rc.classList.add('animate');
+ 
+        const cs = document.getElementById('collectedStatus');
+        if (data.alreadyCollected) {
+          cs.style.display = 'flex';
+        } else {
+          cs.style.display = 'none';
+        }
+ 
+        document.getElementById('studentId').value = '';
+        document.getElementById('studentId').focus();
+      } else {
+        showAppError("ID not found in the database.");
+      }
+    } catch (err) {
+      document.getElementById('loader').style.display = 'none';
+      showAppError("Failed to connect. Check your network and try again.");
+    }
+  }
+ 
+  function showAppError(msg) {
+    const el = document.getElementById('appError');
+    el.innerText = msg;
+    el.style.display = 'block';
+  }
+</script>
+</body>
+</html>
